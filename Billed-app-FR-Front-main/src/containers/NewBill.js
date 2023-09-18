@@ -20,6 +20,10 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
+    const champFile = this.document.querySelector(`input[data-testid="file"]`);
+    const fileFormat = fileName.substring(fileName.lastIndexOf("."))
+    if(fileFormat === ".jpg" || fileFormat === ".jpeg" || fileFormat === ".png") {
+      champFile.setCustomValidity("");
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
@@ -39,7 +43,10 @@ export default class NewBill {
         this.fileUrl = fileUrl
         this.fileName = fileName
       }).catch(error => console.error(error))
+  }  else {
+    champFile.setCustomValidity("Le format doit être JPG, JPEG ou PNG");
   }
+  
   handleSubmit = e => {
     e.preventDefault()
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
@@ -73,4 +80,5 @@ export default class NewBill {
       .catch(error => console.error(error))
     }
   }
+}
 }
