@@ -17,18 +17,19 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
-    const champFile = this.document.querySelector(`input[data-testid="file"]`);
+    /* On modifie la récupération de l'input select */
+    const file = e.target.files[0]
+    const fileName = e.target.files[0].name
     const fileFormat = fileName.substring(fileName.lastIndexOf("."))
+    const champFile = e.target;
+
+    /* Si le format est valide on enlève l'avertissement et on valide */
     if(fileFormat === ".jpg" || fileFormat === ".jpeg" || fileFormat === ".png") {
-      champFile.setCustomValidity("");
+    champFile.setCustomValidity("")
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
     formData.append('email', email)
-
     this.store
       .bills()
       .create({
@@ -43,10 +44,11 @@ export default class NewBill {
         this.fileUrl = fileUrl
         this.fileName = fileName
       }).catch(error => console.error(error))
-  }  else {
-    champFile.setCustomValidity("Le format doit être JPG, JPEG ou PNG");
+    /* Si le format est invalide on indique le bon format */
+    } else {
+      champFile.setCustomValidity("Le format doit être JPG, JPEG ou PNG")
+    }
   }
-  
   handleSubmit = e => {
     e.preventDefault()
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
@@ -80,5 +82,4 @@ export default class NewBill {
       .catch(error => console.error(error))
     }
   }
-}
 }
