@@ -100,7 +100,7 @@ describe("Given I am connected as an employee", () => {
 
 
   describe("When I navigate to Bills", () => {
-    // Vérifie que la page est bien chargé
+    // Vérifie que la page est Affiché
     test("Then the page show", async () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
